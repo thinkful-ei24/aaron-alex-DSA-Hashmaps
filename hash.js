@@ -79,3 +79,28 @@ class HashMap {
 
 HashMap.MAX_LOAD_RATIO = 0.9;
 HashMap.SIZE_RATIO = 3;
+
+function main() {
+  const lor = new HashMap();
+
+  let newItems = [
+    [ 'Hobbit', "Bilbo" ],
+    [ 'Hobbit', "Frodo" ],
+    [ 'Wizard', "Gandolf" ],
+    [ 'Human', "Aragon" ],
+    [ 'Elf', "Legolas" ],
+    [ 'Maiar', "The Necromancer" ],
+    [ 'Maiar', "Sauron" ],
+    [ 'RingBearer', "Gollum" ],
+    [ 'LadyOfLight', "Galadriel" ],
+    [ 'HalfElven', "Arwen" ],
+    [ 'Ent', "Treebeard" ]
+  ];
+
+
+  newItems.forEach(item => lor.set(item[0], item[1]));
+
+  return lor.get('Maiar');
+}
+
+console.log(main());
