@@ -83,22 +83,36 @@ HashMap.SIZE_RATIO = 3;
 function main() {
   const lor = new HashMap();
 
-  // let newItems = [
-  //   ["Hobbit", "Bilbo"],
-  //   ["Hobbit", "Frodo"],
-  //   ["Wizard", "Gandolf"],
-  //   ["Human", "Aragon"],
-  //   ["Elf", "Legolas"],
-  //   ["Maiar", "The Necromancer"],
-  //   ["Maiar", "Sauron"],
-  //   ["RingBearer", "Gollum"],
-  //   ["LadyOfLight", "Galadriel"],
-  //   ["HalfElven", "Arwen"],
-  //   ["Ent", "Treebeard"]
-  // ];
+  let newItems = [
+    ["Hobbit", "Bilbo"],
+    ["Hobbit", "Frodo"],
+    ["Wizard", "Gandolf"],
+    ["Human", "Aragon"],
+    ["Elf", "Legolas"],
+    ["Maiar", "The Necromancer"],
+    ["Maiar", "Sauron"],
+    ["RingBearer", "Gollum"],
+    ["LadyOfLight", "Galadriel"],
+    ["HalfElven", "Arwen"],
+    ["Ent", "Treebeard"]
+  ];
 
-  // newItems.forEach(item => lor.set(item[0], item[1]));
-  //   console.log(lor.get("Maiar"));
+  function separateChaining(key, value) {
+    if (!lor.get(key)) {
+      lor.set(key, value.toString());
+      return;
+    }
+    if (typeof lor.get(key).value === "string") {
+      lor.set(key, [lor.get(key).value.toString(), value.toString()]);
+      return;
+    } else {
+      lor.set(key, [...lor.get(key.value), value]);
+    }
+    return lor;
+  }
+
+  newItems.forEach(item => separateChaining(item[0], item[1]));
+  console.log(lor.get('Maiar'), lor.get('Hobbit'));
 
   function hashPalindrome(str) {
     for (let i = 0; i < str.length; i++) {
@@ -149,16 +163,15 @@ function main() {
     });
     return solution;
   }
-  return anagramGrouping([
-    "east",
-    "cars",
-    "acre",
-    "arcs",
-    "teas",
-    "eats",
-    "race"
-  ]);
+  //   return anagramGrouping([
+  //     "east",
+  //     "cars",
+  //     "acre",
+  //     "arcs",
+  //     "teas",
+  //     "eats",
+  //     "race"
+  //   ]);
 }
-
 
 console.log(main());
