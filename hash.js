@@ -100,74 +100,65 @@ function main() {
   // newItems.forEach(item => lor.set(item[0], item[1]));
   //   console.log(lor.get("Maiar"));
 
-  //   function getAllPermutations(string) {
-  //     let results = [];
-
-  //     if (string.length === 1) {
-  //       results.push(string);
-  //       return results;
-  //     }
-
-  //     for (let i = 0; i < string.length; i++) {
-  //       let firstChar = string[i];
-  //       let charsLeft = string.substring(0, i) + string.substring(i + 1);
-  //       let innerPermutations = getAllPermutations(charsLeft);
-  //       for (let j = 0; j < innerPermutations.length; j++) {
-  //         results.push(firstChar + innerPermutations[j]);
-  //       }
-  //     }
-  //     return results;
-  //   }
-
-  //   function fastestIsPalindrome(str) {
-  //     let len = Math.floor(str.length / 2);
-  //     for (let i = 0; i < len; i++) {
-  //       if (str[i] !== str[str.length - i - 1]) {
-  //         return false;
-  //       }
-  //       return true;
-  //     }
-  //   }
-
-  //   function returnFunction(str) {
-  //     let allThings = getAllPermutations(str);
-  //     let count = 0;
-  //     allThings.forEach(item => {
-  //       if (fastestIsPalindrome(item) === true) {
-  //         count = count + 1;
-  //       }
-  //     });
-  //     if (count > 0) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   }
-
   function hashPalindrome(str) {
     for (let i = 0; i < str.length; i++) {
-        let amount = 1;
-        if (lor.get(str[i]) !== undefined) {
-            amount = lor.get(str[i]).value + 1;
-        }
-        lor.set(str[i], amount);
+      let amount = 1;
+      if (lor.get(str[i]) !== undefined) {
+        amount = lor.get(str[i]).value + 1;
+      }
+      lor.set(str[i], amount);
     }
     let oddCount = 0;
     for (let i = 0; i < str.length; i++) {
-        let num = lor.get(str[i]).value;
-        if (num % 2 !== 0) {
-            oddCount = oddCount + 1;
-        }
+      let num = lor.get(str[i]).value;
+      if (num % 2 !== 0) {
+        oddCount = oddCount + 1;
+      }
     }
     if (oddCount > 1) {
-        return false;
+      return false;
     }
     return true;
-
   }
-  return hashPalindrome("dfddfdsssafes");
+  //   return hashPalindrome("north");
 
-  
+  function makeAlphabet(str) {
+    let arr = str.split("");
+    let alpha = arr
+      .sort()
+      .join("")
+      .replace(/\s+/g, "");
+    return alpha;
+  }
+
+  function anagramGrouping(arr) {
+    let arrays = [];
+    arr.forEach(item => {
+      let sorted = makeAlphabet(item);
+      if (lor.get(sorted)) {
+        lor.set(sorted, [...lor.get(sorted).value, item.toString()]);
+      }
+      if (!lor.get(sorted)) {
+        lor.set(sorted, [item.toString()]);
+        arrays.push(sorted);
+      }
+    });
+    let solution = [];
+    arrays.forEach(item => {
+      solution.push(lor.get(item).value);
+    });
+    return solution;
+  }
+  return anagramGrouping([
+    "east",
+    "cars",
+    "acre",
+    "arcs",
+    "teas",
+    "eats",
+    "race"
+  ]);
 }
+
 
 console.log(main());
